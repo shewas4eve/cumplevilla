@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>La División del Norte te Necesita</title>
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --parch-light : #f7e9bc;
+  --parch-mid   : #d3b25e;
+  --parch-dark  : #c7a64c;
+  --ink         : #130700;
+  --ink-mid     : #38180a;
+  --ink-light   : #5c3010;
+  --gold-bright : #dcc070;
+  --gold-mid    : #9a7418;
+  --gold-deep   : #785010;
+  --wood-dark   : #1c0d00;
+  --wood-mid    : #4a2700;
+  --red-ribbon  : #8b1a00;
+  --red-glow    : #a03000;
+  --cream       : #fff8e4;
+}
+
+html, body {
+  min-height: 100%;
+  background: #080300;
+  font-family: 'Special Elite', cursive;
+  color: var(--ink);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.5rem 1rem 3rem;
+}
+
+body {
+  background:
+    repeating-linear-gradient(87deg,
+      rgba(255,255,255,.016) 0, rgba(255,255,255,.016) 1px,
+      transparent 1px, transparent 12px),
+    repeating-linear-gradient(180deg,
+      rgba(0,0,0,.09) 0, rgba(0,0,0,.09) 1px,
+      transparent 1px, transparent 55px),
+    linear-gradient(160deg, #0f0500 0%, #1c0d00 40%, #0a0200 100%);
+}
+
+/* ════════════════════════════
+   ANIMACIONES
+════════════════════════════ */
+@keyframes fadeInPage {
+  0%   { opacity:0; transform: scale(.92) rotate(-1deg); }
+  70%  { opacity:1; transform: scale(1.01) rotate(.2deg); }
+  100% { opacity:1; transform: scale(1) rotate(0deg); }
+}
+@keyframes slideDown {
+  from { opacity:0; transform:translateY(-18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes popIn {
+  0%   { opacity:0; transform:scale(.5); }
+  75%  { transform:scale(1.07); }
+  100% { opacity:1; transform:scale(1); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+@keyframes ribbonGlow {
+  0%,100% { box-shadow:0 3px 10px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,200,100,.18); }
+  50%     { box-shadow:0 5px 24px rgba(160,30,0,.65), inset 0 1px 0 rgba(255,200,100,.42); }
+}
+@keyframes breathe {
+  0%,100% { transform:scale(1); }
+  50%     { transform:scale(1.025); }
+}
+@keyframes sealFloat {
+  0%,100% { transform:rotate(-3deg) scale(1); }
+  50%     { transform:rotate(3deg) scale(1.04); }
+}
+@keyframes metal-shine {
+  0%,100% { opacity:0; transform:translateX(-100px); }
+  40%,60% { opacity:.5; }
+  80%     { opacity:0; transform:translateX(100px); }
+}
+@keyframes starPulse {
+  0%,100% { filter:drop-shadow(0 0 2px rgba(220,192,112,.3)); }
+  50%     { filter:drop-shadow(0 0 9px rgba(220,192,112,.9)); }
+}
+@keyframes dotPulse {
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:.4;transform:scale(.7);}
+}
+
+/* ════════════════════════════
+   MARCO EXTERIOR
+════════════════════════════ */
+.frame-outer {
+  width: min(540px, 100%);
+  background:
+    repeating-linear-gradient(93deg,
+      rgba(255,255,255,.02) 0, rgba(255,255,255,.02) 1px,
+      transparent 1px, transparent 9px),
+    linear-gradient(155deg, #1c0d00 0%, #4a2700 28%, #2c1600 54%, #583000 80%, #1c0d00 100%);
+  padding: 14px;
+  box-shadow:
+    0 0 0 2px #7a5210,
+    0 0 0 5px #180900,
+    0 0 0 7px #9a7018,
+    0 0 0 10px #180900,
+    0 30px 90px rgba(0,0,0,.98),
+    inset 0 1px 0 rgba(255,215,90,.14);
+  animation: fadeInPage 1s cubic-bezier(.34,1.2,.64,1) both;
+}
+
+.frame-inner {
+  border: 2.5px solid #3a2000;
+  outline: 1.5px solid #b08808;
+  outline-offset: -5px;
+  position: relative;
+}
+.frame-inner::before { content:'✦'; position:absolute; top:5px;  left:5px;  color:#b08808; font-size:11px; z-index:20; }
+.frame-inner::after  { content:'✦'; position:absolute; bottom:5px; right:5px; color:#b08808; font-size:11px; z-index:20; }
+
+/* ════════════════════════════
+   PERGAMINO
+════════════════════════════ */
+.poster {
+  position: relative;
+  overflow: hidden;
+  padding: 22px 24px 28px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.065'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 20% 8%,  rgba(255,248,215,.52) 0%, transparent 44%),
+    radial-gradient(ellipse at 82% 90%, rgba(110,62,8,.28)   0%, transparent 44%),
+    radial-gradient(ellipse at 50% 50%, transparent 48%, rgba(55,26,0,.2) 100%),
+    linear-gradient(168deg, #f7e9bc 0%, #e6c980 22%, #d3b25e 48%, #c7a64c 64%, #d6ba68 82%, #e8ce8c 100%);
+  box-shadow: inset 0 0 70px rgba(75,36,0,.4);
+}
+.poster::after {
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:1;
+  background: linear-gradient(180deg,
+    transparent 31%, rgba(75,36,0,.055) 31.5%, transparent 32%,
+    transparent 65%, rgba(75,36,0,.045) 65.4%, transparent 66%);
+}
+.poster > * { position:relative; z-index:2; }
+
+/* ════════════════════════════
+   PISTOLAS BG DECORATIVAS
+════════════════════════════ */
+.bg-guns { position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.bg-gun  { position:absolute; opacity:.045; }
+.bg-gun.tl { top:5%;  left:1%;  transform:rotate(30deg); }
+.bg-gun.tr { top:5%;  right:1%; transform:rotate(-30deg) scaleX(-1); }
+.bg-gun.bl { bottom:8%; left:1%; transform:rotate(-18deg); }
+.bg-gun.br { bottom:8%; right:1%; transform:rotate(18deg) scaleX(-1); }
+
+/* ════════════════════════════
+   BANDA SUPERIOR
+════════════════════════════ */
+.top-band {
+  text-align:center; font-size:7.5px; letter-spacing:5px;
+  color:var(--ink-mid); text-transform:uppercase;
+  border-top:1.5px solid var(--ink-mid);
+  border-bottom:1.5px solid var(--ink-mid);
+  padding:3.5px 0; margin-bottom:14px;
+  animation: slideDown .5s .2s ease-out both;
+}
+
+/* ════════════════════════════
+   ENCABEZADO PRINCIPAL
+════════════════════════════ */
+.headline-block {
+  text-align: center;
+  margin-bottom: 4px;
+  animation: slideDown .65s .4s ease-out both;
+}
+.pre-title {
+  font-size:7.5px; letter-spacing:5px; color:var(--ink-mid);
+  text-transform:uppercase; display:block; margin-bottom:8px;
+}
+.main-title {
+  font-family:'Rye', cursive;
+  font-size: clamp(30px, 8.5vw, 52px);
+  color: var(--ink);
+  line-height: .9;
+  text-shadow: 3px 3px 0 rgba(0,0,0,.25), -1px -1px 0 rgba(255,225,140,.1);
+  letter-spacing: -1px;
+}
+.main-title span {
+  display:block;
+  font-size: clamp(42px, 11.5vw, 72px);
+  color: var(--ink);
+}
+
+/* ════════════════════════════
+   DIVISORES
+════════════════════════════ */
+.rule { display:flex; align-items:center; gap:7px; margin:9px 0; }
+.rule-line { flex:1; height:1.5px; background:linear-gradient(90deg,transparent,#281200 20%,#281200 80%,transparent); }
+.rule-mid  { font-size:11px; color:#281200; letter-spacing:5px; white-space:nowrap; }
+
+.double-rule {
+  border:none; margin:10px 0; height:8px;
+  background:
+    linear-gradient(90deg,transparent,#281200 10%,#281200 90%,transparent) top/100% 1.5px no-repeat,
+    linear-gradient(90deg,transparent,#281200 10%,#281200 90%,transparent) bottom/100% 1.5px no-repeat;
+}
+
+/* ════════════════════════════
+   BANDA ROJA — NOMBRE FESTEJADO
+════════════════════════════ */
+.name-ribbon {
+  background: linear-gradient(135deg, #6e1000 0%, #a02800 40%, #8b1a00 60%, #6e1000 100%);
+  border-top:2px solid #3a0800; border-bottom:2px solid #3a0800;
+  padding:8px 12px; text-align:center; margin:12px 0 10px;
+  box-shadow: 0 3px 14px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,180,80,.22);
+  animation: ribbonGlow 3s 1s ease-in-out infinite, popIn .6s .7s cubic-bezier(.34,1.4,.64,1) both;
+  position:relative;
+}
+.name-ribbon::before,
+.name-ribbon::after {
+  content:''; position:absolute; top:50%; width:0; height:0;
+  border-top:16px solid transparent; border-bottom:16px solid transparent;
+  transform:translateY(-50%);
+}
+.name-ribbon::before { left:-14px; border-right:14px solid #6e1000; }
+.name-ribbon::after  { right:-14px; border-left:14px solid #6e1000; }
+.ribbon-title {
+  font-family:'Rye', cursive;
+  font-size: clamp(10px, 2.8vw, 16px);
+  color: rgba(255,248,228,.7);
+  letter-spacing:3px; display:block; margin-bottom:3px;
+}
+.ribbon-name {
+  font-family:'Rye', cursive;
+  font-size: clamp(20px, 5.5vw, 32px);
+  color: var(--cream);
+  text-shadow: 0 2px 8px rgba(0,0,0,.6), 0 0 22px rgba(255,180,60,.3);
+  letter-spacing:2px; display:block;
+}
+
+/* ════════════════════════════
+   CARABINA SELLO
+════════════════════════════ */
+.carbina-sello {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  margin: 10px 0 6px;
+  animation: slideUp .6s .8s ease-out both;
+}
+@keyframes carbina-glow {
+  0%,100% { filter:drop-shadow(0 2px 5px rgba(56,24,10,.3)); }
+  50%     { filter:drop-shadow(0 4px 14px rgba(160,80,0,.55)); }
+}
+.carbina-svg { animation: carbina-glow 3.5s ease-in-out infinite; }
+.cr-shine { animation: metal-shine 5s ease-in-out infinite; }
+.sello-label {
+  font-size:7px; letter-spacing:3.5px; color:var(--ink-mid);
+  text-transform:uppercase; text-align:center;
+}
+
+/* ════════════════════════════
+   DECRETO / CONVOCATORIA
+════════════════════════════ */
+.decreto-box {
+  border: 1.5px solid var(--ink-mid);
+  padding: 14px 16px 12px;
+  margin: 12px 0;
+  background: rgba(24,8,0,.06);
+  position: relative;
+  animation: fadeIn .7s 1s ease-out both;
+}
+.decreto-box::before { content:'✦'; position:absolute; top:-8px;  left:50%;  transform:translateX(-50%); background:var(--parch-light); padding:0 6px; color:var(--ink-mid); font-size:12px; }
+.decreto-corner {
+  position:absolute; font-size:10px; color:var(--ink-mid);
+}
+.decreto-corner.tl { top:4px;  left:6px;  }
+.decreto-corner.tr { top:4px;  right:6px; }
+.decreto-corner.bl { bottom:4px; left:6px;  }
+.decreto-corner.br { bottom:4px; right:6px; }
+
+.decreto-eyebrow {
+  text-align:center; font-size:7px; letter-spacing:4px;
+  text-transform:uppercase; color:var(--ink-mid);
+  border-bottom:1px solid rgba(56,24,10,.3);
+  padding-bottom:6px; margin-bottom:10px;
+}
+.decreto-texto {
+  text-align:center;
+  font-family:'Rye', cursive;
+  font-size: clamp(13px, 3.4vw, 19px);
+  color: var(--ink);
+  line-height: 1.55;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.1);
+}
+.decreto-texto em {
+  font-style:normal;
+  font-size: clamp(15px, 4vw, 22px);
+  color: var(--red-ribbon);
+  display:block; margin: 4px 0;
+}
+
+/* ════════════════════════════
+   DATOS DEL EVENTO
+════════════════════════════ */
+.datos-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; margin:14px 0;
+  animation: slideUp .6s 1.1s ease-out both;
+}
+.dato-card {
+  border:1.5px solid var(--ink-mid);
+  padding: 10px 10px 9px;
+  background: rgba(24,8,0,.06);
+  position:relative;
+  text-align:center;
+}
+.dato-card::before {
+  content:''; position:absolute; inset:3px;
+  border:1px solid rgba(176,136,8,.3);
+  pointer-events:none;
+}
+.dato-icon {
+  font-size:18px; display:block; margin-bottom:4px;
+  animation: starPulse 2.5s ease-in-out infinite;
+}
+.dato-label {
+  font-size:6.5px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--ink-mid); display:block; margin-bottom:5px;
+}
+.dato-valor {
+  font-family:'Rye', cursive;
+  font-size: clamp(11px, 2.8vw, 15px);
+  color:var(--ink); line-height:1.3; display:block;
+}
+.dato-sub {
+  font-size:9px; letter-spacing:1px; color:var(--ink-light);
+  text-transform:uppercase; display:block; margin-top:3px;
+}
+
+/* Card de lugar (full width) */
+.dato-card.full {
+  grid-column: 1 / -1;
+}
+
+/* ════════════════════════════
+   BANDA DE CONFIRMACIÓN
+════════════════════════════ */
+.confirm-ribbon {
+  background: linear-gradient(135deg, #6e1000 0%, #a02800 40%, #8b1a00 60%, #6e1000 100%);
+  border-top:2px solid #3a0800; border-bottom:2px solid #3a0800;
+  padding:10px 16px; text-align:center;
+  margin: 14px 0 10px;
+  box-shadow: 0 3px 14px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,180,80,.22);
+  animation: ribbonGlow 3s 1.5s ease-in-out infinite, slideUp .6s 1.3s ease-out both;
+  position:relative;
+}
+.confirm-ribbon::before,
+.confirm-ribbon::after {
+  content:''; position:absolute; top:50%; width:0; height:0;
+  border-top:18px solid transparent; border-bottom:18px solid transparent;
+  transform:translateY(-50%);
+}
+.confirm-ribbon::before { left:-14px; border-right:14px solid #6e1000; }
+.confirm-ribbon::after  { right:-14px; border-left:14px solid #6e1000; }
+.confirm-text {
+  font-family:'Rye', cursive;
+  font-size: clamp(11px, 3vw, 17px);
+  color: var(--cream);
+  text-shadow: 0 2px 6px rgba(0,0,0,.6);
+  letter-spacing:1.5px;
+}
+.confirm-sub {
+  font-size:8.5px; letter-spacing:2.5px; color:rgba(255,248,220,.75);
+  text-transform:uppercase; margin-top:3px; display:block;
+}
+
+/* ════════════════════════════
+   CÓDIGO DE VESTIMENTA
+════════════════════════════ */
+.vestimenta {
+  text-align:center; margin: 10px 0;
+  animation: fadeIn .6s 1.5s ease-out both;
+}
+.vest-box {
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid var(--ink-mid); padding:5px 14px;
+}
+.vest-icon { font-size:16px; }
+.vest-texto { font-size:8.5px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-mid); }
+
+/* ════════════════════════════
+   STARBURST decorativo
+════════════════════════════ */
+.starburst-row {
+  display:flex; justify-content:center; gap:16px;
+  margin:10px 0 6px;
+  animation: fadeIn .6s 1.6s ease-out both;
+}
+.starburst {
+  animation: sealFloat 3s ease-in-out infinite;
+}
+.starburst:nth-child(2) { animation-delay:1s; }
+.starburst:nth-child(3) { animation-delay:2s; }
+
+/* ════════════════════════════
+   BANDA INFERIOR
+════════════════════════════ */
+.bottom-band {
+  text-align:center; font-size:7px; letter-spacing:4px;
+  color:var(--ink-mid); text-transform:uppercase;
+  border-top:1.5px solid var(--ink-mid);
+  padding-top:6px; margin-top:14px;
+  animation: slideUp .5s 1.7s ease-out both;
+}
+
+</style>
+</head>
+<body>
+
+<div class="frame-outer">
+  <div class="frame-inner">
+    <div class="poster">
+
+      <!-- ── PISTOLAS DE FONDO ── -->
+      <div class="bg-guns">
+        <svg class="bg-gun tl" width="80" height="44" viewBox="0 0 90 50" fill="none">
+          <rect x="10" y="18" width="58" height="11" rx="2" fill="#130700"/>
+          <rect x="60" y="14" width="22" height="4"  rx="1" fill="#130700"/>
+          <rect x="64" y="12" width="4"  height="8"  rx="1" fill="#130700"/>
+          <path d="M18 29 L14 46 L28 46 L26 29Z" fill="#130700"/>
+          <rect x="6"  y="20" width="10" height="7"  rx="1" fill="#130700"/>
+        </svg>
+        <svg class="bg-gun tr" width="80" height="44" viewBox="0 0 90 50" fill="none">
+          <rect x="10" y="18" width="58" height="11" rx="2" fill="#130700"/>
+          <rect x="60" y="14" width="22" height="4"  rx="1" fill="#130700"/>
+          <rect x="64" y="12" width="4"  height="8"  rx="1" fill="#130700"/>
+          <path d="M18 29 L14 46 L28 46 L26 29Z" fill="#130700"/>
+          <rect x="6"  y="20" width="10" height="7"  rx="1" fill="#130700"/>
+        </svg>
+        <svg class="bg-gun bl" width="80" height="44" viewBox="0 0 90 50" fill="none">
+          <rect x="10" y="18" width="58" height="11" rx="2" fill="#130700"/>
+          <rect x="60" y="14" width="22" height="4"  rx="1" fill="#130700"/>
+          <rect x="64" y="12" width="4"  height="8"  rx="1" fill="#130700"/>
+          <path d="M18 29 L14 46 L28 46 L26 29Z" fill="#130700"/>
+          <rect x="6"  y="20" width="10" height="7"  rx="1" fill="#130700"/>
+        </svg>
+        <svg class="bg-gun br" width="80" height="44" viewBox="0 0 90 50" fill="none">
+          <rect x="10" y="18" width="58" height="11" rx="2" fill="#130700"/>
+          <rect x="60" y="14" width="22" height="4"  rx="1" fill="#130700"/>
+          <rect x="64" y="12" width="4"  height="8"  rx="1" fill="#130700"/>
+          <path d="M18 29 L14 46 L28 46 L26 29Z" fill="#130700"/>
+          <rect x="6"  y="20" width="10" height="7"  rx="1" fill="#130700"/>
+        </svg>
+      </div>
+
+      <!-- ── BANDA SUPERIOR ── -->
+      <div class="top-band">
+        ✦ &nbsp; República Mexicana — División del Norte — 1910 &nbsp; ✦
+      </div>
+
+      <!-- ── ENCABEZADO ── -->
+      <div class="headline-block">
+        <span class="pre-title">— Convocatoria Oficial —</span>
+        <div class="main-title">
+          La Fiesta de
+          <span>Villa</span>
+          y sus Dorados
+        </div>
+      </div>
+
+      <!-- ── DIVISOR ── -->
+      <div class="rule">
+        <div class="rule-line"></div>
+        <div class="rule-mid">⚔ ✦ ⚔</div>
+        <div class="rule-line"></div>
+      </div>
+
+      <!-- ── DECRETO ── -->
+      <div class="decreto-box">
+        <span class="decreto-corner tl">✦</span>
+        <span class="decreto-corner tr">✦</span>
+        <span class="decreto-corner bl">✦</span>
+        <span class="decreto-corner br">✦</span>
+        <div class="decreto-eyebrow">✦ &nbsp; Decreto Oficial &nbsp; ✦</div>
+        <div class="decreto-texto">
+          Por mandato del mero mero General,<br>
+          la División del Norte te necesita en<br>
+          <em>¡La Gran Celebración!</em>
+          Ven a festejar con los dorados,<br>la tropa y los más bravos villistas.
+        </div>
+      </div>
+
+      <!-- ── NOMBRE DEL FESTEJADO ── -->
+      <div class="name-ribbon">
+        <span class="ribbon-title">En honor al General</span>
+        <span class="ribbon-name">Francisco Villa</span>
+      </div>
+
+      <!-- ── CARABINA 30-30 SELLO ── -->
+      <div class="carbina-sello">
+        <svg class="carbina-svg" width="280" height="86" viewBox="0 0 280 86" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="metal1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#9a7828"/>
+              <stop offset="45%" stop-color="#3a2408"/>
+              <stop offset="100%" stop-color="#1e1004"/>
+            </linearGradient>
+            <linearGradient id="madera1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"  stop-color="#8a5020"/>
+              <stop offset="50%" stop-color="#4a2808"/>
+              <stop offset="100%" stop-color="#2c1400"/>
+            </linearGradient>
+            <linearGradient id="canon1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#7a6020"/>
+              <stop offset="40%" stop-color="#2c1c04"/>
+              <stop offset="100%" stop-color="#140a00"/>
+            </linearGradient>
+            <clipPath id="clipC">
+              <rect x="0" y="0" width="280" height="86"/>
+            </clipPath>
+          </defs>
+          <!-- CULATA -->
+          <path d="M4 52 Q6 40 14 37 L56 34 L58 58 Q56 68 44 71 Q28 74 13 67 Q4 61 4 52Z"
+            fill="url(#madera1)" stroke="#281200" stroke-width="1"/>
+          <path d="M10 44 Q26 41 50 38" stroke="#5a3010" stroke-width=".6" opacity=".38" fill="none"/>
+          <path d="M9 52  Q26 49 52 46" stroke="#5a3010" stroke-width=".6" opacity=".32" fill="none"/>
+          <path d="M10 60 Q24 58 48 56" stroke="#5a3010" stroke-width=".5" opacity=".28" fill="none"/>
+          <!-- placa metálica culata -->
+          <path d="M4 52 Q4 63 13 67 Q6 65 5 58Z" fill="#3a2408" stroke="#281200" stroke-width=".7"/>
+          <!-- GUARDAMANOS -->
+          <path d="M58 36 L158 27 L160 40 L58 51Z"
+            fill="url(#madera1)" stroke="#281200" stroke-width=".9"/>
+          <path d="M62 37 L155 28" stroke="#5a3010" stroke-width=".5" opacity=".38" fill="none"/>
+          <path d="M60 45 L158 36" stroke="#5a3010" stroke-width=".5" opacity=".3" fill="none"/>
+          <!-- anilla guardamanos -->
+          <rect x="154" y="27" width="5" height="15" rx="2" fill="#3a2408" stroke="#281200" stroke-width=".8"/>
+          <!-- RECEPTOR -->
+          <rect x="50" y="30" width="38" height="30" rx="3"
+            fill="url(#metal1)" stroke="#281200" stroke-width="1"/>
+          <!-- ventana de expulsión -->
+          <rect x="58" y="35" width="17" height="11" rx="1.5"
+            fill="#0a0400" stroke="#5a3a10" stroke-width=".7"/>
+          <!-- grabado 30-30 -->
+          <text x="69" y="58" text-anchor="middle" font-size="7"
+            font-family="Special Elite, cursive" fill="#8a6828" letter-spacing="1">30-30</text>
+          <!-- tornillos receptor -->
+          <circle cx="54"  cy="36" r="2"   fill="#4a3010" stroke="#281200" stroke-width=".6"/>
+          <circle cx="54"  cy="54" r="2"   fill="#4a3010" stroke="#281200" stroke-width=".6"/>
+          <circle cx="84"  cy="36" r="2"   fill="#4a3010" stroke="#281200" stroke-width=".6"/>
+          <circle cx="84"  cy="54" r="2"   fill="#4a3010" stroke="#281200" stroke-width=".6"/>
+          <!-- PALANCA (lever action) -->
+          <path d="M56 60 Q64 76 76 84 Q83 87 86 82 Q84 72 72 62 Q64 56 56 60Z"
+            fill="url(#madera1)" stroke="#281200" stroke-width=".9"/>
+          <path d="M66 64 Q73 74 80 80" stroke="#5a3a10" stroke-width=".7" fill="none" opacity=".5"/>
+          <!-- GUARDAGATILLO -->
+          <path d="M56 60 Q60 73 73 73 Q77 67 73 60Z"
+            fill="none" stroke="#281200" stroke-width="1"/>
+          <!-- gatillo -->
+          <path d="M64 60 Q62 69 67 72" stroke="#5a3a10" stroke-width="2.2"
+            stroke-linecap="round" fill="none"/>
+          <!-- CAÑÓN LARGO -->
+          <rect x="88" y="31" width="184" height="14" rx="5"
+            fill="url(#canon1)" stroke="#281200" stroke-width=".9"/>
+          <!-- brillo animado -->
+          <rect class="cr-shine" x="88" y="32.5" width="100" height="4" rx="2"
+            fill="rgba(255,225,120,.55)" clip-path="url(#clipC)"/>
+          <!-- anilla cañón -->
+          <rect x="156" y="30" width="5" height="16" rx="2" fill="#3a2408" stroke="#281200" stroke-width=".8"/>
+          <!-- boca del cañón -->
+          <ellipse cx="272" cy="38" rx="4.5" ry="7" fill="#080200" stroke="#281200" stroke-width=".8"/>
+          <ellipse cx="272" cy="38" rx="2.5" ry="4.5" fill="#030100"/>
+          <!-- MIRAS -->
+          <rect x="100" y="28" width="10" height="4.5" rx="1"  fill="#3a2408" stroke="#281200" stroke-width=".7"/>
+          <rect x="103" y="25.5" width="4" height="3.5" rx=".6" fill="#3a2408" stroke="#281200" stroke-width=".6"/>
+          <rect x="263"  y="28" width="3.5" height="4"  rx=".6" fill="#3a2408" stroke="#281200" stroke-width=".6"/>
+          <!-- anilla portafusil -->
+          <ellipse cx="130" cy="23" rx="6" ry="3.5" fill="none" stroke="#5a3a10" stroke-width="1.3"/>
+        </svg>
+        <!-- texto del sello -->
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="height:1px;width:24px;background:linear-gradient(90deg,transparent,#38180a);"></div>
+          <span class="sello-label">Sello Oficial — División del Norte — 1910</span>
+          <div style="height:1px;width:24px;background:linear-gradient(90deg,#38180a,transparent);"></div>
+        </div>
+      </div>
+
+      <!-- ── DIVISOR ── -->
+      <div class="rule">
+        <div class="rule-line"></div>
+        <div class="rule-mid">— 🌵 —</div>
+        <div class="rule-line"></div>
+      </div>
+
+      <!-- ── DATOS DEL EVENTO ── -->
+      <div class="datos-grid">
+
+        <div class="dato-card">
+          <span class="dato-icon">📅</span>
+          <span class="dato-label">Fecha</span>
+          <!-- ✏️ CAMBIA AQUÍ LA FECHA -->
+          <span class="dato-valor">Sábado<br>14 de Junio</span>
+          <span class="dato-sub">Año 2025</span>
+        </div>
+
+        <div class="dato-card">
+          <span class="dato-icon">🕖</span>
+          <span class="dato-label">Hora</span>
+          <!-- ✏️ CAMBIA AQUÍ LA HORA -->
+          <span class="dato-valor">7:00 PM</span>
+          <span class="dato-sub">¡No llegues tarde, soldado!</span>
+        </div>
+
+        <div class="dato-card full">
+          <span class="dato-icon">📍</span>
+          <span class="dato-label">Cuartel General</span>
+          <!-- ✏️ CAMBIA AQUÍ EL LUGAR -->
+          <span class="dato-valor">Salón Hacienda La Norteña</span>
+          <span class="dato-sub">Calle Zaragoza #142 · Chihuahua, Chih.</span>
+        </div>
+
+      </div>
+
+      <!-- ── BANDA CONFIRMACIÓN ── -->
+      <div class="confirm-ribbon">
+        <div class="confirm-text">¡La División del Norte te necesita!</div>
+        <span class="confirm-sub">Confirma tu asistencia con el Coronel</span>
+      </div>
+
+      <!-- ── CÓDIGO DE VESTIMENTA ── -->
+      <div class="vestimenta">
+        <div class="vest-box">
+          <span class="vest-icon">🪖</span>
+          <span class="vest-texto">Vestimenta: Revolucionaria o de gala · Porte obligatorio</span>
+        </div>
+      </div>
+
+      <!-- ── ESTRELLAS DECORATIVAS ── -->
+      <div class="starburst-row">
+        <!-- Estrella 6 puntas dorada pequeña -->
+        <svg class="starburst" width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <polygon points="14,2 16,11 24,8 18,15 24,22 16,19 14,27 12,19 4,22 10,15 4,8 12,11"
+            fill="url(#sg_inv)" stroke="#281200" stroke-width=".8"/>
+          <defs>
+            <linearGradient id="sg_inv" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"  stop-color="#dcc070"/>
+              <stop offset="50%" stop-color="#9a7418"/>
+              <stop offset="100%" stop-color="#c89c38"/>
+            </linearGradient>
+          </defs>
+          <circle cx="14" cy="14" r="4" fill="#3a2408" stroke="#5a3a10" stroke-width=".6"/>
+        </svg>
+
+        <svg class="starburst" width="38" height="38" viewBox="0 0 38 38" fill="none">
+          <polygon points="19,2 22,15 34,10 25,20 34,30 22,25 19,37 16,25 4,30 13,20 4,10 16,15"
+            fill="url(#sg_inv2)" stroke="#281200" stroke-width=".9"/>
+          <defs>
+            <linearGradient id="sg_inv2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"  stop-color="#dcc070"/>
+              <stop offset="50%" stop-color="#9a7418"/>
+              <stop offset="100%" stop-color="#c89c38"/>
+            </linearGradient>
+          </defs>
+          <circle cx="19" cy="19" r="5.5" fill="#3a2408" stroke="#5a3a10" stroke-width=".7"/>
+          <text x="19" y="22.5" text-anchor="middle" font-size="5"
+            font-family="Special Elite, cursive" fill="#c89c38">LEY</text>
+        </svg>
+
+        <svg class="starburst" width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <polygon points="14,2 16,11 24,8 18,15 24,22 16,19 14,27 12,19 4,22 10,15 4,8 12,11"
+            fill="url(#sg_inv3)" stroke="#281200" stroke-width=".8"/>
+          <defs>
+            <linearGradient id="sg_inv3" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#dcc070"/>
+              <stop offset="50%" stop-color="#9a7418"/>
+              <stop offset="100%" stop-color="#c89c38"/>
+            </linearGradient>
+          </defs>
+          <circle cx="14" cy="14" r="4" fill="#3a2408" stroke="#5a3a10" stroke-width=".6"/>
+        </svg>
+      </div>
+
+      <!-- ── DOBLE LÍNEA ── -->
+      <div class="double-rule"></div>
+
+      <!-- ── BANDA INFERIOR ── -->
+      <div class="bottom-band">
+        ✦ &nbsp; Viva México &nbsp;·&nbsp; Viva la Revolución &nbsp;·&nbsp; Viva Villa &nbsp; ✦
+      </div>
+
+    </div><!-- .poster -->
+  </div><!-- .frame-inner -->
+</div><!-- .frame-outer -->
+
+</body>
+</html>
